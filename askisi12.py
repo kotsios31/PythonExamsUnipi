@@ -1,19 +1,20 @@
 from urllib.request import Request, urlopen
 from binascii import unhexlify, hexlify
-from math import log
 import json
 
 
-def calculateEntropy(hexString):
-    """Calculates the Shannon entropy of a string"""
+def maxConsecutive(binaryRandomness):
+    maxOnes = max(map(len, binaryRandomness.split('0')))
+    maxZeros = max(map(len, binaryRandomness.split('1')))
 
-    # get probability of chars in string
-    prob = [float(hexString.count(c)) / len(hexString) for c in dict.fromkeys(list(hexString))]
+    return maxOnes, maxZeros
 
-    # calculate the entropy
-    entropy = - sum([p * log(p) / log(2.0) for p in prob])
 
-    return entropy
+def hexToBinaryConversion(hexRandomness):
+
+    result = bin(int(hexRandomness, 16))
+
+    return result[2:]
 
 
 def mergeRandomness(randomnessArray):
@@ -28,7 +29,9 @@ def mergeRandomness(randomnessArray):
 
 def findLatest():
 
-    req = Request(' https://drand.cloudflare.com/public/latest', headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20130401 Firefox/31.0'})
+    req = Request(' https://drand.cloudflare.com/public/latest', headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; '
+                                                                                        'WOW64; rv:31.0) '
+                                                                                        'Gecko/20130401 Firefox/31.0'})
     data = json.loads(urlopen(req).read().decode())
     latestRound = int(str(data["round"]))
 
@@ -36,7 +39,7 @@ def findLatest():
 
 
 def findRangeOfRounds(latestRound):
-    firstRound = latestRound - 20
+    firstRound = latestRound - 99
     randomness_array = []
 
     for roundNumber in range(firstRound, latestRound + 1):
@@ -53,8 +56,11 @@ def main():
     latestRound = findLatest()
     rangeOfRoundsArray = findRangeOfRounds(latestRound)
     mergedRandomness = mergeRandomness(rangeOfRoundsArray).decode()
-    entropy = calculateEntropy(mergedRandomness)
-    print("Final entropy: ", entropy)
+    binaryRandomness = hexToBinaryConversion(mergedRandomness)
+
+    maxOnes, maxZeros = maxConsecutive(binaryRandomness)
+    print("Length of biggest sequence of 1s: ", maxOnes)
+    print("Length of biggest sequence of 0s: ", maxZeros)
 
 
 if __name__ == "__main__":
