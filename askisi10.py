@@ -5,64 +5,61 @@ def loadText():
     return text
 
 
-def textToBinarySeven(text):
-    binary_7 = [format(ord(char), '07b') for char in text]
+def text_BinarySeven(text):
+    bin7 = [format(ord(char), '07b') for char in text]
 
-    return binary_7
+    return bin7
 
 
-def getFirstAndLastTwo(array):
+def getFirst_LastTwo(arr):
     string = ''
-    for bin7Char in array:
-        firstTwoBits = bin7Char[:2]
-        lastTwoBits = bin7Char[-2:]
-        fourBitsOfChar = firstTwoBits + lastTwoBits
-        string += fourBitsOfChar
-
+    for bin7Char in arr:
+        firstBits = bin7Char[:2]
+        lastBits = bin7Char[-2:]
+        fourBits = firstBits + lastBits
+        string += fourBits
     return string
 
 
-def splitBySixteenBits(string):
-    array = [string[i:i + 16] for i in range(0, len(string), 16)]
+def split_SixteenBits(string):
+    arr = [string[i:i + 16] for i in range(0, len(string), 16)]
 
-    return array
+    return arr
 
+def make_Arrays(split_Bits):
+    divided_Two, divided_Three, divided_Five, divided_Seven = [], [], [], []
 
-def makeArrays(splitBits_16):
-    dividedByTwo, dividedByThree, dividedByFive, dividedBySeven = [], [], [], []
+    for sixteenBits in split_Bits:
+        num = int(sixteenBits, 2)
+        if num % 2 == 0:
+            divided_Two.append(num)
 
-    for sixteenBits in splitBits_16:
-        number = int(sixteenBits, 2)
-        if number % 2 == 0:
-            dividedByTwo.append(number)
+        if num % 3 == 0:
+            divided_Three.append(num)
 
-        if number % 3 == 0:
-            dividedByThree.append(number)
+        if num % 5 == 0:
+            divided_Five.append(num)
 
-        if number % 5 == 0:
-            dividedByFive.append(number)
+        if num % 7 == 0:
+            divided_Seven.append(num)
 
-        if number % 7 == 0:
-            dividedBySeven.append(number)
-
-    return dividedByTwo, dividedByThree, dividedByFive, dividedBySeven
+    return divided_Two, divided_Three, divided_Five, divided_Seven
 
 
 def main():
     text = loadText()
-    sevenBitsArray = textToBinarySeven(text)
-    firstAndLastTwoBits = getFirstAndLastTwo(sevenBitsArray)
-    splitBits_16 = splitBySixteenBits(firstAndLastTwoBits)
+    sevenBitsArr = text_BinarySeven(text)
+    firstAndLast = getFirst_LastTwo(sevenBitsArr)
+    splitBits16 = split_SixteenBits(firstAndLast)
 
-    dividedByTwo, dividedByThree, dividedByFive, dividedBySeven = makeArrays(splitBits_16)
+    divided_Two, divided_Three, divided_Five, divided_Seven = make_Arrays(splitBits16)
 
-    lengthOfSixteenBitsArray = len(splitBits_16)
+    length_Sixteen = len(splitBits16)
 
-    print("From ", lengthOfSixteenBitsArray, " numbers, ", len(dividedByTwo), "can be divided exactly with 2.")
-    print("From ", lengthOfSixteenBitsArray, " numbers, ", len(dividedByThree), "can be divided exactly with 3.")
-    print("From ", lengthOfSixteenBitsArray, " numbers, ", len(dividedByFive), "can be divided exactly with 5.")
-    print("From ", lengthOfSixteenBitsArray, " numbers, ", len(dividedBySeven), "can be divided exactly with 7.")
-
+    print("From ", length_Sixteen, " ο αριθμός, ", len(divided_Two), "μπορεί να διαίρεθει ακριβώς με 2.")
+    print("From ", length_Sixteen, " ο αριθμός, ", len(divided_Three), "μπορεί να διαίρεθει ακριβώς με 3.")
+    print("From ", length_Sixteen, " ο αριθμός, ", len(divided_Five), "μπορεί να διαίρεθει ακριβώς με 5.")
+    print("From ", length_Sixteen, " ο αριθμός, ", len(divided_Seven), "μπορεί να διαίρεθει ακριβώς με 7.")
 
 if __name__ == "__main__":
     main()

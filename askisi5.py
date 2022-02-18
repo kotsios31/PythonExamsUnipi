@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 
-def removeNonChars():
+def remove_Non_Chars():
     with open('two_cities_ascii.txt', 'r+') as file:
         file = file.read()
 
@@ -11,28 +11,28 @@ def removeNonChars():
 
 def main():
     # ΒΗΜΑ 1
-    array = removeNonChars().split()
-    counter = Counter(array)
+    arr = remove_Non_Chars().split()
+    counter = Counter(arr)
     print(" Oι δέκα δημοφιλέστερες λέξεις είναι:", counter.most_common(10))
 
     # ΒΗΜΑ 2
     # print(counter)
     counter = counter.most_common(40)
-    combinationsFor2Letters = []
-    combinationsFor3Letters = []
+    combination2 = []
+    combination3= []
     for word in counter:
         word = word[0]
         if len(word) > 1:
-            for word_2 in counter:
-                word_2 = word_2[0]
-                if len(word_2) > 1:
-                    if word[:2] == word_2[:2] and word is not word_2 and word not in combinationsFor2Letters and word_2 not in combinationsFor2Letters:
-                        combinationsFor2Letters.append([word, word_2])
-                    if word[:3] == word_2[:3] and word is not word_2 and word not in combinationsFor3Letters and word_2 not in combinationsFor3Letters:
-                        combinationsFor3Letters.append([word, word_2])
+            for word2 in counter:
+                word2 = word2[0]
+                if len(word2) > 1:
+                    if word[:2] == word2[:2] and word is not word2 and word not in combination2 and word2 not in combination2:
+                        combination2.append([word, word2])
+                    if word[:3] == word2[:3] and word is not word2 and word not in combination3 and word2 not in combination3:
+                        combination3.append([word, word2])
 
-    print("οι δύο πρώτοι συνδυασμοί δύο πρώτων γραμμάτων είναι: ", combinationsFor2Letters)
-    print("οι τρεις πρώτοι συνδυασμοί δύο πρώτων γραμμάτων είναι: ", combinationsFor3Letters)
+    print("οι δύο πρώτοι συνδυασμοί δύο πρώτων γραμμάτων είναι: ", combination2)
+    print("οι τρεις πρώτοι συνδυασμοί δύο πρώτων γραμμάτων είναι: ", combination3)
 
 if __name__ == "__main__":
     main()
