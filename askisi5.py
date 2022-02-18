@@ -1,7 +1,6 @@
 import re
 from collections import Counter
 
-
 def removeNonChars():
     with open('two_cities_ascii.txt', 'r+') as file:
         file = file.read()
@@ -10,14 +9,13 @@ def removeNonChars():
 
     return new_string.lower()
 
-
 def main():
-    # Step A
+    # ΒΗΜΑ 1
     array = removeNonChars().split()
     counter = Counter(array)
     print(" Oι δέκα δημοφιλέστερες λέξεις είναι:", counter.most_common(10))
 
-    # Step B
+    # ΒΗΜΑ 2
     # print(counter)
     counter = counter.most_common(40)
     combinationsFor2Letters = []
@@ -35,7 +33,6 @@ def main():
 
     print("οι δύο πρώτοι συνδυασμοί δύο πρώτων γραμμάτων είναι: ", combinationsFor2Letters)
     print("οι τρεις πρώτοι συνδυασμοί δύο πρώτων γραμμάτων είναι: ", combinationsFor3Letters)
-
 
 if __name__ == "__main__":
     main()
